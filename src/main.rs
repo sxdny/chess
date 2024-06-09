@@ -1,27 +1,12 @@
-use actix_web::{web, App, HttpServer, HttpResponse, Responder};
-use actix_files::Files;
-use std::fs;
+use yew::prelude::*;
 
-async fn index() -> impl Responder {
-   let html = fs::read_to_string("app/index.html")
-   .expect("Something went wrong reading the file");
-
-   HttpResponse::Ok().body(html)
+fn main() {
+    yew::start_app::<App>();
 }
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-        .service(
-            Files::new("/static", "./app/style.css")
-        )
-        .service(
-            web::scope("/app")
-                .route("/index.html", web::get().to(index)),
-        )
-    })
-    .bind(("127.0.0.1", 8080))?
-    .run()
-    .await
+#[function_component(App)]
+fn app() -> Html {
+    html! {
+        <h1>{"Hello World"}</h1>
+    }
 }
